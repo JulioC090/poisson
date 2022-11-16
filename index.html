@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poisson</title>
+    <style>
+        .form-input .input{
+            margin-bottom: 24px;
+        }
+
+        .form-input .input *{
+            display: block;
+        }
+
+        .form-input .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form class="form-input" id="form-input">
+        <div class="error" id="error"></div>
+        <div class="input">
+            <label for="numero_esperado">Número esperado de ocorrências</label>
+            <input type="number" name="numero_esperado" id="numero_esperado" required>
+        </div>
+        <div class="input">
+            <label for="valor_desejado">Valor desejado de ocorrência</label>
+            <input type="number" name="valor_desejado" id="valor_desejado" required>
+        </div>
+
+        <div class="input">
+            <label for="modifier">Modificador</label>
+            <select id="modifier">
+                <option value="1">Apenas</option>
+                <option value="2">No máximo</option>
+            </select>
+        </div>
+
+        <button id="calcular">Calcular</button>
+    </form>
+    
+    <div class="result" id="result"></div>
+
+    <script>
+        function fatorial(n) {
+            if (n < 0) return;
+            if (n < 2) return 1;
+            return n * fatorial(n - 1);
+        }
+
+        function calcularPoisson(numeroEsperado, valorDesejado){
+            return (Math.pow(Math.E, -numeroEsperado) * Math.pow(numeroEsperado, valorDesejado)) / fatorial(valorDesejado);
+        }
+
+        function calcularPoissonNoMaximo(numeroEsperado, valorDesejado){
+            let resultado = 0;
+
+            for (let i = 0; i <= valorDesejado; i++) {
+                resultado += calcularPoisson(numeroEsperado, i);
+            }
+
+            return resultado;
+        }
+
+        let button = document.getElementById("calcular");
+        let numeroEsperado = document.getElementById("numero_esperado");
+        let valorDesejado = document.getElementById("valor_desejado");
+        let modificador = document.getElementById("modifier");
+        let divResultado = document.getElementById("result");
+        let divErro = document.getElementById("error");
+
+        button.addEventListener('click', (e) =>{
+            if(!document.getElementById('form-input').checkValidity()){
+                return;
+            }
+
+            e.preventDefault();
+
+            divErro.innerHTML = '';
+
+            if(numeroEsperado.value < 0){
+                divErro.innerHTML += "<p>O numero esperado precisa ser positivo</p>";
+            }
+
+            if(valorDesejado.value < 0){
+                divErro.innerHTML += "<p>O valor desejado precisa ser positivo</p>";
+            }
+
+            if(divErro.innerHTML != ''){
+                return;
+            }
+
+            let resultado;
+
+            switch (modificador.value) {
+                case '1':
+                    resultado = calcularPoisson(numeroEsperado.value, valorDesejado.value);
+                    break;
+                    
+                case '2':
+                    resultado = calcularPoissonNoMaximo(numeroEsperado.value, valorDesejado.value);
+                    break;
+
+                default:
+                    return;
+                    break;
+                }
+                    
+                    
+            resultado = Math.round(resultado * 100000) / 1000;
+            divResultado.innerHTML = resultado + '%';
+        })
+    </script>
+</body>
+</html>
