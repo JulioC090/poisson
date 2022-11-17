@@ -5,44 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poisson</title>
-    <style>
-        .form-input .input{
-            margin-bottom: 24px;
-        }
-
-        .form-input .input *{
-            display: block;
-        }
-
-        .form-input .error{
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form class="form-input" id="form-input">
-        <div class="error" id="error"></div>
-        <div class="input">
-            <label for="numero_esperado">Número esperado de ocorrências</label>
-            <input type="number" name="numero_esperado" id="numero_esperado" required>
-        </div>
-        <div class="input">
-            <label for="valor_desejado">Valor desejado de ocorrência</label>
-            <input type="number" name="valor_desejado" id="valor_desejado" required>
-        </div>
+    <div class="container">
+        <div class="box">
+            <h1>Distribuição Poisson</h1>
+            <form class="form-input" id="form-input">
 
-        <div class="input">
-            <label for="modifier">Modificador</label>
-            <select id="modifier">
-                <option value="1">Apenas</option>
-                <option value="2">No máximo</option>
-            </select>
-        </div>
+                <label for="numero_esperado">
+                    <span>Número esperado de ocorrências</span>
+                    <div class="input">
+                        <input type="number" name="numero_esperado" id="numero_esperado" required>
+                    </div>
+                </label>
 
-        <button id="calcular">Calcular</button>
-    </form>
+                <label for="valor_desejado">
+                    <span>Valor desejado de ocorrência</span>
+                    <div class="input">
+                        <input type="number" name="valor_desejado" id="valor_desejado" required>
+                    </div>
+                </label>
+                
+        
+                <label for="modifier">
+                    <span>Modificador</span>
+                    
+                    <div class="input">
+                        <div class="select-menu">
+                            <div class="select">
+                              <span value="1">Apenas</span>
+                              <i class="fas fa-angle-down"></i>
+                            </div>
+                            <div class="options-list" id="modifier">
+                                <div class="option" value="1">Apenas</div>
+                                <div class="option" value="2">No máximo</div>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+
+                <div class="error" id="error"></div>
+        
+                <button id="calcular" class="button">Calcular</button>
+            </form>
+            
+            <div class="result">
+                <h2>Resultado:</h2>
+                <div class="progress-bar">
+                    <div class="loader" id="result" style="width:50%">50%</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
     
-    <div class="result" id="result"></div>
+    <script>
+        const select = document.querySelector(".select");
+        const options_list = document.querySelector(".options-list");
+        const options = document.querySelectorAll(".option");
+        let selectedOptionIndex = 0;
+
+        options[selectedOptionIndex].classList.add("selected");
+        select.querySelector("span").innerHTML = options[selectedOptionIndex].innerHTML;
+    
+        //show & hide options list
+        select.addEventListener("click", () => {
+          options_list.classList.toggle("active");
+          select.querySelector(".fa-angle-down").classList.toggle("fa-angle-up");
+        });
+    
+        //select option
+        options.forEach((option, index) => {
+          option.addEventListener("click", () => {
+            options.forEach((option) => {option.classList.remove('selected')});
+            select.querySelector("span").innerHTML = option.innerHTML;
+            select.value = option.value;
+            option.classList.add("selected");
+            options_list.classList.toggle("active");
+            select.querySelector(".fa-angle-down").classList.toggle("fa-angle-up");
+            selectedOptionIndex = index;
+          });
+        });
+    </script>
 
     <script>
         function fatorial(n) {
@@ -68,7 +114,6 @@
         let button = document.getElementById("calcular");
         let numeroEsperado = document.getElementById("numero_esperado");
         let valorDesejado = document.getElementById("valor_desejado");
-        let modificador = document.getElementById("modifier");
         let divResultado = document.getElementById("result");
         let divErro = document.getElementById("error");
 
@@ -95,12 +140,12 @@
 
             let resultado;
 
-            switch (modificador.value) {
-                case '1':
+            switch (selectedOptionIndex) {
+                case 0:
                     resultado = calcularPoisson(numeroEsperado.value, valorDesejado.value);
                     break;
                     
-                case '2':
+                case 1:
                     resultado = calcularPoissonNoMaximo(numeroEsperado.value, valorDesejado.value);
                     break;
 
@@ -111,6 +156,7 @@
                     
                     
             resultado = Math.round(resultado * 100000) / 1000;
+            divResultado.style.width = resultado + '%';
             divResultado.innerHTML = resultado + '%';
         })
     </script>

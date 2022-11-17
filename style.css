@@ -1,0 +1,184 @@
+@font-face { font-family: Inter; 
+    src: url('../font/Inter-Regular.ttf'); 
+} 
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Inter, sans-serif;
+}
+
+*:focus {
+    border: none;
+    outline: none;
+}
+
+html, body{
+    height: 100%;
+    background-color: #1F2937;
+}
+
+h1{
+    margin-bottom: 32px;
+}
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    background-color: #F8FAFC;
+    width: 540px;
+    padding: 64px;
+    border-radius: 25px;
+}
+
+.select-menu{
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+}
+
+.select{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.options-list{
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 50%;
+    border-radius: 6px;
+    margin-top: 14px;
+    padding: 16px 24px;
+    overflow-y: hidden;
+    transition: .15s linear .2s;
+    display: none;
+}
+
+.options-list.active{
+    display: block;
+}
+
+.option{
+    padding: 16px 0;
+    font-weight: 500;
+    font-size: 14px;
+    transition: .15s ease-in-out;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.option:hover, .option.selected{
+    color: #DC2626;
+}
+
+.option:hover{
+    background-color: #F3F4F6;
+}
+
+.options-list.active{
+    height: auto;
+}
+
+.form-input .error{
+    color: #DC2626;
+    width: 100%;
+}
+
+.form-input{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-input label{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-input .input{
+    display: flex;
+    padding: 1rem 0.75rem;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.75rem;
+    background: #F3F4F6;
+    margin-bottom: 24px;
+    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.07), 0px 2px 2px rgba(0, 0, 0, 0.06);
+}
+
+.form-input .input input, select{
+    background-color: transparent;
+    flex: 1 1 0%;
+    color: #1F2937;
+    font-size: 14px;
+    border: none;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    font-size: 1rem;
+}
+
+.form-input .input select::part(listbox){
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #DC2626;
+    border-radius: 5px;
+}
+
+.form-input .input input::placeholder{
+    color: #4B5563;
+}
+
+.form-input .button{
+    margin-top: 24px;
+    background-color: #DC2626;
+    font-size: 14px;
+    color: #F8FAFC;
+    border: none;
+    border-radius: 1.5rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0.75rem;
+    transition: cubic-bezier(.4,0,.2,1) .15s;
+}
+
+.form-input .button:hover{
+    background-color: #ef4444;
+}
+
+.result{
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.progress-bar {
+    border-radius: 30px;
+    background-color: #F3F4F6;
+    box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.07), 0px 2px 2px rgba(0, 0, 0, 0.06);
+}
+
+.loader{
+    border-radius: 30px;
+    padding: 1rem 1rem;
+    background-color: #22C55E;
+    color: #F8FAFC;
+    transition: cubic-bezier(.4,0,.2,1) .5s;
+}
+  
