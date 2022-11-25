@@ -55,7 +55,8 @@
             <div class="result">
                 <h2>Resultado:</h2>
                 <div class="progress-bar">
-                    <div class="loader" id="result" style="width:50%">50%</div>
+                    <div class="loader" id="progress" style="width:50%"></div>
+                    <div class="text" id="result">50%</div>
                 </div>
             </div>
             
@@ -115,6 +116,7 @@
         let button = document.getElementById("calcular");
         let numeroEsperado = document.getElementById("numero_esperado");
         let valorDesejado = document.getElementById("valor_desejado");
+        let divProgresso = document.getElementById("progress")
         let divResultado = document.getElementById("result");
         let divErro = document.getElementById("error");
 
@@ -157,7 +159,7 @@
                     
                     
             resultado = Math.round(resultado * 1000000 * 100) / 1000000;
-            divResultado.style.width = resultado + '%';
+            divProgresso.style.width = resultado + '%';
             divResultado.innerHTML = resultado + '%';
         })
     </script>
